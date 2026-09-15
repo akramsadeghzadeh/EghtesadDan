@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+
+<meta name="theme-color" content="#090d16">
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+>
+
+<meta
+  name="apple-mobile-web-app-title"
+  content="اقتصاد‌یار"
+>
+
+<link
+  rel="apple-touch-icon"
+  href="./icon-192.png"
+>
+  <title>اقتصاد‌یار | EghtesadYar - داشبورد و ماشین حساب اقتصادی هوشمند</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  
+  <style>
+    :root {
+      --bg-primary: #090d16;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.75);
+      --bg-card-hover: rgba(51, 65, 85, 0.85);
+      --bg-input: rgba(15, 23, 42, 0.85);
+      --border-color: rgba(255, 255, 255, 0.12);
+      --border-accent: rgba(245, 158, 11, 0.35);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+      
+      --color-gold: #f59e0b;
+      --color-gold-light: #fbbf24;
+      --color-green: #10b981;
+      --color-red: #ef4444;
+      --color-blue: #3b82f6;
+      --color-purple: #8b5cf6;
+      --color-cyan: #06b6d4;
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.5);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      
+      --font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+      --nav-height: 64px;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-card-hover: rgba(241, 245, 249, 1);
+      --bg-input: #f8fafc;
+      --border-color: rgba(0, 0, 0, 0.1);
+      --border-accent: rgba(217, 119, 6, 0.4);
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #334155;
+      
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea {
+      font-family: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 2px;
+    }
+
+    .app-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--color-gold), #b45309);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      color: #000;
+      font-weight: bold;
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #fef08a, var(--color-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--color-gold);
+    }
+
+    .badge-mode {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--color-purple);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .app-body {
+      display: flex;
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding-bottom: calc(var(--nav-height) + 1rem);
+    }
+
+    @media (min-width: 900px) {
+      .app-body {
+        padding-bottom: 2rem;
+        padding-top: 1.5rem;
+        gap: 1.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+
+    .sidebar-nav {
+      display: none;
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1rem 0.75rem;
+      height: fit-content;
+      position: sticky;
+      top: 80px;
+    }
+
+    @media (min-width: 900px) {
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      width: 100%;
+      text-align: right;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), transparent);
+      color: var(--color-gold);
+      border-right: 3px solid var(--color-gold);
+      font-weight: bold;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 99;
+      backdrop-filter: blur(16px);
+      padding: 0 0.25rem;
+    }
+
+    @media (min-width: 900px) {
+      .bottom-nav {
+        display: none;
+      }
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      flex: 1;
+      padding: 0.35rem 0;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--color-gold);
+      font-weight: bold;
+    }
+
+    .bottom-nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 1rem;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .kpi-card {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .kpi-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-sub {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .tag-green { color: var(--color-green); }
+    .tag-red { color: var(--color-red); }
+    .tag-gold { color: var(--color-gold); }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--color-gold);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: left 0.75rem center;
+      background-size: 1em;
+      padding-left: 2.2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-gold), #d97706);
+      color: #000;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, var(--color-purple), #6d28d9);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+
+    .range-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: var(--bg-input);
+      outline: none;
+      accent-color: var(--color-gold);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      margin-top: 0.5rem;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+      font-size: 0.85rem;
+    }
+
+    .data-table th, .data-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .data-table th {
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .data-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .floating-ai-btn {
+      position: fixed;
+      bottom: calc(var(--nav-height) + 1rem);
+      left: 1rem;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-purple), #4c1d95);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 90;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    @media (min-width: 900px) {
+      .floating-ai-btn {
+        bottom: 2rem;
+        left: 2rem;
+      }
+    }
+
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+      height: 380px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      background: rgba(15, 23, 42, 0.8);
+      overflow: hidden;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .chat-msg {
+      max-width: 85%;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .chat-msg.user {
+      align-self: flex-start;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      border-bottom-right-radius: 2px;
+    }
+
+    .chat-msg.bot {
+      align-self: flex-end;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.35);
+      border-bottom-left-radius: 2px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      max-width: 520px;
+      width: 100%;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+
+    .toast-item {
+      pointer-events: auto;
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .disclaimer-banner {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    @media print {
+      .app-header, .sidebar-nav, .bottom-nav, .floating-ai-btn, .btn {
+        display: none !important;
+      }
+      .main-content { padding: 0; }
+      body { background: #fff; color: #000; }
+      .card { border: 1px solid #ccc; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-logo">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <span class="brand-title">اقتصاد‌یار</span>
+          <span class="brand-subtitle">ماشین حساب و دستیار هوشمند سرمایه‌گذاری</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="badge-mode" id="mode-toggle-btn" onclick="toggleAppMode()" aria-label="تغییر حالت پیشرفته/ساده">
+          حالت پیشرفته
+        </button>
+        <button class="btn-icon" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="تغییر تم تاریک/روشن">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar-nav">
+      <button class="nav-item active" onclick="switchTab('dashboard')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        داشبورد
+      </button>
+      <button class="nav-item" onclick="switchTab('gold')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 6v12M6 12h12"/></svg>
+        طلا و سکه
+      </button>
+      <button class="nav-item" onclick="switchTab('currency')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/></svg>
+        مبدل ارز
+      </button>
+      <button class="nav-item" onclick="switchTab('stocks')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        تحلیل سهام
+      </button>
+      <button class="nav-item" onclick="switchTab('scenarios')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        سناریوساز سرمایه
+      </button>
+      <button class="nav-item" onclick="switchTab('portfolio')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM9 4h6v3H9V4z"/></svg>
+        سبد دارایی من
+      </button>
+      <button class="nav-item" onclick="switchTab('simulation')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        شبیه‌ساز سود/زیان
+      </button>
+      <button class="nav-item" onclick="switchTab('ai')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+        دستیار Gemini
+      </button>
+      <button class="nav-item" onclick="switchTab('guide')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        راهنما & آموزش
+      </button>
+      <button class="nav-item" onclick="switchTab('settings')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        تنظیمات & داده‌ها
+      </button>
+    </aside>
+
+    <main class="main-content">
+
+      <section id="sec-dashboard" class="page-section active">
+        <div class="card" style="background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.9)); border-color: var(--border-accent);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <h1 style="font-size:1.35rem; font-weight:800;">خوش آمدید به اقتصاد‌یار 👋</h1>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.2rem;">نگاه کلی به وضعیت بازارهای مالی و خلاصه سبد دارایی</p>
+            </div>
+            <button class="btn btn-primary" onclick="openOnboarding()">راه اندازی سریع</button>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="kpi-card">
+            <span class="kpi-label">طلا (۱۸ عیار / گرم)</span>
+            <span class="kpi-value" id="dash-gold-price">۴,۳۵۰,۰۰۰ تومان</span>
+            <span class="kpi-sub tag-green">▲ +۱.۲٪ امروز</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">دلار آمریکا</span>
+            <span class="kpi-value" id="dash-usd-price">۶۲,۴۰۰ تومان</span>
+            <span class="kpi-sub tag-red">▼ -۰.۴٪ امروز</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">شاخص کل بورس</span>
+            <span class="kpi-value">۲,۱۵۰,۴۰۰</span>
+            <span class="kpi-sub tag-green">▲ +۰.۸٪</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">ارزش سبد شما</span>
+            <span class="kpi-value" id="dash-portfolio-val">۰ تومان</span>
+            <span class="kpi-sub tag-gold">پایدار</span>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top:1.25rem;">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">📈 روند ۳۰ روزه طلا و ارز</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="dashMarketChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">💼 ترکیب فعلی دارایی‌ها</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="dashPortfolioDonut"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="border-right: 4px solid var(--color-purple);">
+          <div class="card-header">
+            <span class="card-title" style="color:var(--color-purple);">🤖 تحلیل هوشمند هوش مصنوعی Gemini</span>
+          </div>
+          <p id="dash-ai-insight" style="font-size:0.88rem; color:var(--text-sub); line-height:1.7;">
+            بازار طلا با توجه به نوسانات اونس جهانی دارای حباب مثبت خفیف است. پیشنهاد می‌شود برای حفظ قدرت خرید، ترکیب متعادلی از طلا، صندوق درآمد ثابت و سهام بنیادی نگهداری کنید.
+          </p>
+        </div>
+      </section>
+
+      <section id="sec-gold" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🥇 محاسبه‌گر دقیق طلا و سکه</span>
+          </div>
+          
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label class="form-label">نوع دارایی</label>
+                <select class="form-control" id="gold-type" onchange="calculateGold()">
+                  <option value="18k">طلای ۱۸ عیار</option>
+                  <option value="24k">طلای ۲۴ عیار</option>
+                  <option value="melted">طلای آبشده</option>
+                  <option value="coin">سکه تمام بهار آزادی</option>
+                  <option value="half_coin">نیم سکه</option>
+                  <option value="quarter_coin">ربع سکه</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">قیمت هر اونس جهانی (دلار)</label>
+                <input type="number" class="form-control" id="gold-ounce" value="2650" oninput="calculateGold()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">نرخ دلار آزاد (تومان)</label>
+                <input type="number" class="form-control" id="gold-usd-rate" value="62400" oninput="calculateGold()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">وزن / تعداد (گرم یا عدد)</label>
+                <input type="number" class="form-control" id="gold-weight" value="10" step="0.1" oninput="calculateGold()">
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group">
+                <label class="form-label">اجرت ساخت (درصد)</label>
+                <input type="number" class="form-control" id="gold-wage" value="7" oninput="calculateGold()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">سود فروشنده (درصد)</label>
+                <input type="number" class="form-control" id="gold-profit" value="7" oninput="calculateGold()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">مالیات بر ارزش افزوده (درصد)</label>
+                <input type="number" class="form-control" id="gold-tax" value="10" oninput="calculateGold()">
+              </div>
+
+              <div class="form-group adv-field">
+                <label class="form-label">حباب تخمینی سکه (تومان)</label>
+                <input type="number" class="form-control" id="gold-bubble" value="6500000" oninput="calculateGold()">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="background: rgba(245, 158, 11, 0.05); border-color: var(--border-accent);">
+          <div class="card-header">
+            <span class="card-title">💰 نتیجه و ریز محاسبات</span>
+          </div>
+          <div class="grid-3">
+            <div class="kpi-card">
+              <span class="kpi-label">قیمت پایه طلا (خام)</span>
+              <span class="kpi-value" id="res-gold-raw">۰ تومان</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">مجموع کارمزد + سود + مالیات</span>
+              <span class="kpi-value" id="res-gold-fees">۰ تومان</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label" style="color:var(--color-gold);">قیمت نهایی پرداخت</span>
+              <span class="kpi-value" id="res-gold-total" style="color:var(--color-gold);">۰ تومان</span>
+            </div>
+          </div>
+
+          <div style="margin-top:1rem; padding:0.75rem; background:var(--bg-input); border-radius:var(--radius-md); font-size:0.82rem;" id="gold-breakdown-text">
+            فرمول: قیمت نهایی = (وزن × قیمت گرم خام) + اجرت + سود فروشنده + مالیات
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-currency" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💱 مبدل ارز و تتر</span>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label class="form-label">مبلغ مبدا</label>
+                <input type="number" class="form-control" id="curr-amount" value="100" oninput="convertCurrency()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">ارز مبدا</label>
+                <select class="form-control" id="curr-from" onchange="convertCurrency()">
+                  <option value="USD">دلار آمریکا (USD)</option>
+                  <option value="EUR">یورو (EUR)</option>
+                  <option value="GBP">پوند انگلیس (GBP)</option>
+                  <option value="AED">درهم امارات (AED)</option>
+                  <option value="TRY">لیر ترکیه (TRY)</option>
+                  <option value="USDT">تتر (USDT)</option>
+                  <option value="IRT" selected>تومان ایران (IRT)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group">
+                <label class="form-label">ارز مقصد</label>
+                <select class="form-control" id="curr-to" onchange="convertCurrency()">
+                  <option value="USD" selected>دلار آمریکا (USD)</option>
+                  <option value="EUR">یورو (EUR)</option>
+                  <option value="GBP">پوند انگلیس (GBP)</option>
+                  <option value="AED">درهم امارات (AED)</option>
+                  <option value="TRY">لیر ترکیه (TRY)</option>
+                  <option value="USDT">تتر (USDT)</option>
+                  <option value="IRT">تومان ایران (IRT)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">کارمزد صرافی (درصد)</label>
+                <input type="number" class="form-control" id="curr-fee" value="0.5" step="0.1" oninput="convertCurrency()">
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:center; margin:1rem 0;">
+            <button class="btn btn-secondary" onclick="swapCurrency()">🔄 جابه‌جایی ارزها</button>
+          </div>
+
+          <div class="kpi-card" style="text-align:center; background:rgba(59, 130, 246, 0.1); border-color:rgba(59, 130, 246, 0.3);">
+            <span class="kpi-label">مبلغ پس از تبدیل</span>
+            <span class="kpi-value" id="curr-result-val" style="color:var(--color-blue); font-size:1.8rem;">۰</span>
+            <span class="kpi-sub" id="curr-rate-info" style="justify-content:center;">نرخ تبدیل: ۱ USD = ۶۲,۴۰۰ IRT</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-stocks" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📈 تحلیل‌گر سهام و بورس</span>
+            <button class="btn btn-secondary" onclick="loadPresetStock()">بارگذاری سهم نمونه (فولاد)</button>
+          </div>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label class="form-label">نام سهم</label>
+              <input type="text" class="form-control" id="stock-name" value="فولاد مبارکه">
+            </div>
+            <div class="form-group">
+              <label class="form-label">قیمت فعلی (ریال)</label>
+              <input type="number" class="form-control" id="stock-price" value="5400" oninput="analyzeStock()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">قیمت پایانی دیروز</label>
+              <input type="number" class="form-control" id="stock-prev-close" value="5250" oninput="analyzeStock()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">سطح حمایت مهم</label>
+              <input type="number" class="form-control" id="stock-support" value="5000" oninput="analyzeStock()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">سطح مقاومت مهم</label>
+              <input type="number" class="form-control" id="stock-resistance" value="5800" oninput="analyzeStock()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">حجم معاملات امروز</label>
+              <input type="number" class="form-control" id="stock-volume" value="45000000" oninput="analyzeStock()">
+            </div>
+          </div>
+
+          <div class="chart-container" style="margin-top:1rem;">
+            <canvas id="stockTrendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🎯 امتیاز تکنیکال آموزشی</span>
+            </div>
+            <div style="text-align:center; padding:1rem;">
+              <div id="stock-score-badge" style="font-size:2.5rem; font-weight:bold; color:var(--color-green);">۷۸ / ۱۰۰</div>
+              <p id="stock-score-desc" style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">روند صعودی قوی با فاصله مناسب از سطح حمایت</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">🤖 تحلیل هوشمند سهم (Gemini)</span>
+            </div>
+            <p id="stock-ai-analysis" style="font-size:0.88rem; color:var(--text-sub); line-height:1.7;">
+              سهم فوق بالای سطح حمایت ۵۰۰۰ ریال معامله می‌شود. حجم مناسب معاملات نقدشوندگی بالایی را نشان می‌دهد.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-scenarios" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💡 سناریوساز هوشمند تخصیص سرمایه</span>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <div class="form-group">
+                <label class="form-label">کل بودجه سرمایه‌گذاری (تومان)</label>
+                <input type="number" class="form-control" id="scen-budget" value="200000000" oninput="generateScenarios()">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">افق زمانی سرمایه‌گذاری</label>
+                <select class="form-control" id="scen-horizon" onchange="generateScenarios()">
+                  <option value="short">کوتاه‌مدت (زیر ۶ ماه)</option>
+                  <option value="medium" selected>میان‌مدت (۶ ماه تا ۲ سال)</option>
+                  <option value="long">بلندمدت (بالای ۲ سال)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <div class="form-group">
+                <label class="form-label">میزان ریسک‌پذیری (۰٪ محافظه‌کار | ۱۰۰٪ پرریسک)</label>
+                <div style="display:flex; align-items:center; gap:1rem;">
+                  <input type="range" class="range-slider" id="scen-risk-slider" min="0" max="100" value="40" oninput="updateRiskValue(this.value)">
+                  <span id="risk-val-badge" style="font-weight:bold; color:var(--color-gold); min-width:40px;">۴۰٪</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">نیاز به نقدشوندگی</label>
+                <select class="form-control" id="scen-liquidity" onchange="generateScenarios()">
+                  <option value="high">زیاد (دسترسی سریع)</option>
+                  <option value="medium" selected>متوسط</option>
+                  <option value="low">کم</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-bottom:1rem; font-size:1.1rem; font-weight:700;">پیشنهاد ۳ سناریوی اختصاصی:</h3>
+
+        <div class="grid-3">
+          <div class="card" style="border-top:4px solid var(--color-green);">
+            <div class="card-header">
+              <span class="card-title" style="color:var(--color-green);">🟢 محافظه‌کارانه</span>
+            </div>
+            <ul style="font-size:0.85rem; list-style:none; display:flex; flex-direction:column; gap:0.5rem;" id="scen-cons-list"></ul>
+          </div>
+
+          <div class="card" style="border-top:4px solid var(--color-gold);">
+            <div class="card-header">
+              <span class="card-title" style="color:var(--color-gold);">🟡 متعادل (پیشنهادی)</span>
+            </div>
+            <ul style="font-size:0.85rem; list-style:none; display:flex; flex-direction:column; gap:0.5rem;" id="scen-bal-list"></ul>
+          </div>
+
+          <div class="card" style="border-top:4px solid var(--color-red);">
+            <div class="card-header">
+              <span class="card-title" style="color:var(--color-red);">🔴 ریسک‌پذیر</span>
+            </div>
+            <ul style="font-size:0.85rem; list-style:none; display:flex; flex-direction:column; gap:0.5rem;" id="scen-agg-list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-portfolio" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💼 مدیریت سبد دارایی شخصی</span>
+            <button class="btn btn-primary" onclick="openAddAssetModal()">+ افزودن دارایی جدید</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>نام دارایی</th>
+                  <th>دسته</th>
+                  <th>تعداد / مقدار</th>
+                  <th>قیمت خرید (تومان)</th>
+                  <th>قیمت فعلی (تومان)</th>
+                  <th>ارزش کل</th>
+                  <th>سود / زیان</th>
+                  <th>عملیات</th>
+                </tr>
+              </thead>
+              <tbody id="portfolio-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-simulation" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📊 شبیه‌ساز سناریوهای سود و زیان بازار</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+            تغییرات فرضی قیمت‌ها را تنظیم کنید تا اثر آن را بر سرمایه کل خود مشاهده کنید.
+          </p>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label class="form-label">تغییر فرضی طلا (٪)</label>
+              <input type="number" class="form-control" id="sim-gold-change" value="10" oninput="runSimulation()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">تغییر فرضی ارز/دلار (٪)</label>
+              <input type="number" class="form-control" id="sim-curr-change" value="5" oninput="runSimulation()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">تغییر فرضی سهام (٪)</label>
+              <input type="number" class="form-control" id="sim-stock-change" value="-8" oninput="runSimulation()">
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:1rem;">
+            <div class="kpi-card">
+              <span class="kpi-label">ارزش کل اولیه</span>
+              <span class="kpi-value" id="sim-val-before">۰ تومان</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-label">ارزش شبیه‌سازی شده</span>
+              <span class="kpi-value" id="sim-val-after">۰ تومان</span>
+              <span class="kpi-sub" id="sim-diff-badge">۰ تومان (۰٪)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-ai" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title" style="color:var(--color-purple);">🤖 دستیار هوشمند اقتصادی Gemini</span>
+          </div>
+
+          <div class="chat-box">
+            <div class="chat-messages" id="chat-messages-list">
+              <div class="chat-msg bot">
+                سلام! من دستیار هوشمند اقتصاد‌یار هستم. چطور می‌توانم در تحلیل سبد، محاسبات طلا یا مدیریت ریسک به شما کمک کنم؟
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" class="form-control" id="chat-input" placeholder="سوال خود را بنویسید..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+              <button class="btn btn-purple" onclick="sendChatMessage()">ارسال</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-guide" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📚 راهنمای مفاهیم و آموزش اقتصادی</span>
+          </div>
+
+          <div style="font-size:0.9rem; color:var(--text-sub); display:flex; flex-direction:column; gap:1rem;">
+            <div>
+              <h4 style="color:var(--color-gold); font-weight:bold;">🥇 اجرت و حباب طلا چیست؟</h4>
+              <p>اجرت ساخت هزینه‌ای است که بابت تراش و طراحی به سازنده طلا داده می‌شود. حباب سکه اختلاف قیمت بازار آزاد سکه با ارزش واقعی طلای به کار رفته در آن است.</p>
+            </div>
+            <div>
+              <h4 style="color:var(--color-blue); font-weight:bold;">📈 حمایت و مقاومت در سهام</h4>
+              <p>سطح حمایت قیمتی است که خریداران تمایل به خرید دارند و مانع افت بیشتر قیمت می‌شوند. سطح مقاومت قیمتی است که عرضه بیشتر شده و مانع رشد سریع قیمت می‌گردد.</p>
+            </div>
+            <div>
+              <h4 style="color:var(--color-purple); font-weight:bold;">💡 اصول مدیریت ریسک</h4>
+              <p>تنوع‌بخشی به دارایی‌ها (عدم قرار دادن تمام سرمایه در یک بازار) ریسک کلی سرمایه‌گذاری شما را در برابر نوسانات شدید بازار کاهش می‌دهد.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-settings" class="page-section">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⚙️ تنظیمات و مدیریت داده‌ها</span>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+              <button class="btn btn-secondary" onclick="exportJSONData()">📥 خروجی داده‌ها (JSON)</button>
+              <button class="btn btn-secondary" onclick="exportCSVData()">📥 خروجی سبد (CSV)</button>
+              <button class="btn btn-secondary" onclick="window.print()">🖨️ چاپ گزارش</button>
+            </div>
+
+            <hr style="border-color:var(--border-color);">
+
+            <div>
+              <h4 style="color:var(--color-red); font-weight:bold; margin-bottom:0.5rem;">بازنشانی اطلاعات</h4>
+              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">تمام داده‌های ذخیره‌شده حذف خواهند شد.</p>
+              <button class="btn btn-primary" style="background:var(--color-red); color:#fff;" onclick="promptResetAllData()">حذف و بازنشانی کامل داده‌ها</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="disclaimer-banner">
+        <span>⚠️</span>
+        <div>
+          <strong>سلب مسئولیت آموزشی:</strong> این اپلیکیشن یک ابزار محاسباتی و آموزشی است و هیچ‌گونه توصیه قطعی خرید یا فروش ارائه نمی‌کند. تمام تصمیم‌های مالی باید با تحقیق شخصی انجام شوند.
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-item active" onclick="switchTab('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span>داشبورد</span>
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('gold')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 6v12M6 12h12"/></svg>
+      <span>طلا</span>
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('currency')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6"/></svg>
+      <span>ارز</span>
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('stocks')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+      <span>سهام</span>
+    </div>
+    <div class="bottom-nav-item" onclick="switchTab('portfolio')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-3V4c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"/></svg>
+      <span>سبد من</span>
+    </div>
+  </nav>
+
+  <button class="floating-ai-btn" onclick="switchTab('ai')" aria-label="دستیار هوشمند Gemini">
+    🤖
+  </button>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Asset Add Modal -->
+  <div class="modal-overlay" id="add-asset-modal">
+    <div class="modal-card">
+      <div class="card-header">
+        <span class="card-title">افزودن دارایی جدید</span>
+        <button class="btn-icon" onclick="closeAddAssetModal()">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">نام دارایی</label>
+        <input type="text" class="form-control" id="asset-name-input" placeholder="مثلا: طلای ۱۸ عیار یا سهم فولاد">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">دسته دارایی</label>
+        <select class="form-control" id="asset-type-input">
+          <option value="gold">طلا و سکه</option>
+          <option value="currency">ارز</option>
+          <option value="stock">سهام</option>
+          <option value="cash">نقد / سپرده</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">تعداد / مقدار</label>
+        <input type="number" class="form-control" id="asset-qty-input" value="1" step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">قیمت خرید (تومان)</label>
+        <input type="number" class="form-control" id="asset-buy-price-input" placeholder="0">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">قیمت فعلی (تومان)</label>
+        <input type="number" class="form-control" id="asset-curr-price-input" placeholder="0">
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+        <button class="btn btn-secondary" onclick="closeAddAssetModal()">انصراف</button>
+        <button class="btn btn-primary" onclick="saveNewAsset()">ذخیره دارایی</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Dialog Modal -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-card" style="max-width:400px; text-align:center;">
+      <h3 style="font-size:1.1rem; font-weight:bold; margin-bottom:0.5rem;" id="confirm-title">تایید عملیات</h3>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1.5rem;" id="confirm-msg">آیا از انجام این کار مطمئن هستید؟</p>
+
+      <div style="display:flex; gap:0.75rem; justify-content:center;">
+        <button class="btn btn-secondary" onclick="closeConfirmModal(false)">انصراف</button>
+        <button class="btn btn-primary" style="background:var(--color-red); color:#fff;" onclick="closeConfirmModal(true)">تایید و ادامه</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding Wizard Modal -->
+  <div class="modal-overlay" id="onboarding-modal">
+    <div class="modal-card" style="text-align:center;">
+      <div class="brand-icon" style="margin:0 auto 1rem auto; width:56px; height:56px; font-size:1.5rem;">
+        💰
+      </div>
+      <h2 style="font-size:1.3rem; font-weight:bold; margin-bottom:0.5rem;">به اقتصاد‌یار خوش آمدید</h2>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">
+        ابزار هوشمند تحلیل، محاسبه و مدیریت سرمایه‌گذاری شخصی.
+      </p>
+
+      <div class="form-group" style="text-align:right;">
+        <label class="form-label">بودجه اولیه سرمایه‌گذاری (تومان):</label>
+        <input type="number" class="form-control" id="onboard-budget" value="100000000">
+      </div>
+
+      <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="finishOnboarding()">
+        شروع و ورود به برنامه
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'eghtesadyar_state_v2';
+    
+    let appState = {
+      theme: 'dark',
+      mode: 'advanced',
+      portfolio: [
+        { id: 1, name: 'طلای ۱۸ عیار', type: 'gold', qty: 15, buyPrice: 4100000, currPrice: 4350000 },
+        { id: 2, name: 'دلار آمریکا', type: 'currency', qty: 1000, buyPrice: 6100000, currPrice: 6240000 }
+      ],
+      userBudget: 200000000,
+      userRisk: 40,
+      onboarded: false
+    };
+
+    let confirmCallback = null;
+
+    window.onload = function() {
+      loadState();
+      applyTheme();
+      applyModeUI();
+      
+      calculateGold();
+      convertCurrency();
+      analyzeStock();
+      generateScenarios();
+      renderPortfolioTable();
+      runSimulation();
+
+      drawDashboardMarketChart();
+      drawDashboardPortfolioDonut();
+      drawStockChart();
+
+      if (!appState.onboarded) {
+        openOnboarding();
+      }
+
+      window.addEventListener('resize', () => {
+        drawDashboardMarketChart();
+        drawDashboardPortfolioDonut();
+        drawStockChart();
+      });
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          appState = Object.assign({}, appState, JSON.parse(saved));
+        }
+      } catch (e) {
+        console.error('Error loading state from LocalStorage', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Error saving state', e);
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(btn => btn.classList.remove('active'));
+
+      const targetSec = document.getElementById('sec-' + tabId);
+      if (targetSec) targetSec.classList.add('active');
+
+      const sidebarBtns = document.querySelectorAll('.sidebar-nav .nav-item');
+      sidebarBtns.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${tabId}'`)) {
+          btn.classList.add('active');
+        }
+      });
+
+      const bottomBtns = document.querySelectorAll('.bottom-nav .bottom-nav-item');
+      bottomBtns.forEach(btn => {
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${tabId}'`)) {
+          btn.classList.add('active');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
+      applyTheme();
+      saveState();
+    }
+
+    function applyTheme() {
+      if (appState.theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    function toggleAppMode() {
+      appState.mode = appState.mode === 'advanced' ? 'simple' : 'advanced';
+      applyModeUI();
+      saveState();
+    }
+
+    function applyModeUI() {
+      const modeBtn = document.getElementById('mode-toggle-btn');
+      const advFields = document.querySelectorAll('.adv-field');
+      
+      if (appState.mode === 'simple') {
+        modeBtn.textContent = 'حالت ساده';
+        advFields.forEach(el => el.style.display = 'none');
+      } else {
+        modeBtn.textContent = 'حالت پیشرفته';
+        advFields.forEach(el => el.style.display = 'block');
+      }
+    }
+
+    function calculateGold() {
+      const type = document.getElementById('gold-type').value;
+      const ounce = parseFloat(document.getElementById('gold-ounce').value) || 0;
+      const usdRate = parseFloat(document.getElementById('gold-usd-rate').value) || 0;
+      const weight = parseFloat(document.getElementById('gold-weight').value) || 0;
+      const wage = parseFloat(document.getElementById('gold-wage').value) || 0;
+      const profit = parseFloat(document.getElementById('gold-profit').value) || 0;
+      const tax = parseFloat(document.getElementById('gold-tax').value) || 0;
+
+      let gram18kRaw = ((ounce * usdRate) / 31.1034768) * (750 / 999.9);
+      if (isNaN(gram18kRaw) || gram18kRaw <= 0) gram18kRaw = 4350000;
+
+      let rawTotal = gram18kRaw * weight;
+      let wageAmt = rawTotal * (wage / 100);
+      let profitAmt = (rawTotal + wageAmt) * (profit / 100);
+      let taxAmt = (wageAmt + profitAmt) * (tax / 100);
+
+      let grandTotal = rawTotal + wageAmt + profitAmt + taxAmt;
+
+      document.getElementById('res-gold-raw').textContent = formatCurrency(Math.round(rawTotal));
+      document.getElementById('res-gold-fees').textContent = formatCurrency(Math.round(wageAmt + profitAmt + taxAmt));
+      document.getElementById('res-gold-total').textContent = formatCurrency(Math.round(grandTotal));
+    }
+
+    const ratesInIRT = {
+      IRT: 1,
+      USD: 62400,
+      EUR: 68500,
+      GBP: 81200,
+      AED: 17000,
+      TRY: 1820,
+      USDT: 62800
+    };
+
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById('curr-amount').value) || 0;
+      const from = document.getElementById('curr-from').value;
+      const to = document.getElementById('curr-to').value;
+      const feePercent = parseFloat(document.getElementById('curr-fee').value) || 0;
+
+      const amountInIRT = amount * ratesInIRT[from];
+      let converted = amountInIRT / ratesInIRT[to];
+
+      converted = converted * (1 - (feePercent / 100));
+
+      document.getElementById('curr-result-val').textContent = formatCurrency(converted.toFixed(2));
+      document.getElementById('curr-rate-info').textContent = `نرخ تبدیل مستقیم: ۱ ${from} = ${(ratesInIRT[from] / ratesInIRT[to]).toFixed(4)} ${to}`;
+    }
+
+    function swapCurrency() {
+      const fromSelect = document.getElementById('curr-from');
+      const toSelect = document.getElementById('curr-to');
+      const temp = fromSelect.value;
+      fromSelect.value = toSelect.value;
+      toSelect.value = temp;
+      convertCurrency();
+    }
+
+    function analyzeStock() {
+      const price = parseFloat(document.getElementById('stock-price').value) || 1;
+      const prev = parseFloat(document.getElementById('stock-prev-close').value) || 1;
+      const support = parseFloat(document.getElementById('stock-support').value) || 1;
+      const resistance = parseFloat(document.getElementById('stock-resistance').value) || 1;
+
+      let score = 50;
+      if (price > prev) score += 15;
+      if (price > support) score += 15;
+      if (price < resistance) score += 10;
+
+      const badge = document.getElementById('stock-score-badge');
+      badge.textContent = `${score} / ۱۰۰`;
+
+      if (score >= 70) {
+        badge.style.color = 'var(--color-green)';
+      } else if (score >= 45) {
+        badge.style.color = 'var(--color-gold)';
+      } else {
+        badge.style.color = 'var(--color-red)';
+      }
+
+      drawStockChart();
+    }
+
+    function loadPresetStock() {
+      document.getElementById('stock-name').value = 'فولاد مبارکه اصفهان';
+      document.getElementById('stock-price').value = '5400';
+      document.getElementById('stock-prev-close').value = '5200';
+      document.getElementById('stock-support').value = '5000';
+      document.getElementById('stock-resistance').value = '5800';
+      analyzeStock();
+      showToast('اطلاعات نمونه بورس بارگذاری شد', 'info');
+    }
+
+    function updateRiskValue(val) {
+      document.getElementById('risk-val-badge').textContent = `${val}٪`;
+      appState.userRisk = parseInt(val);
+      generateScenarios();
+    }
+
+    function generateScenarios() {
+      const budget = parseFloat(document.getElementById('scen-budget').value) || 100000000;
+      const risk = parseInt(document.getElementById('scen-risk-slider').value) || 40;
+
+      const consGold = Math.round(budget * 0.40);
+      const consCurr = Math.round(budget * 0.20);
+      const consStock = Math.round(budget * 0.10);
+      const consCash = Math.round(budget * 0.30);
+
+      document.getElementById('scen-cons-list').innerHTML = `
+        <li>🥇 طلا: ٪۴۰ (${formatCurrency(consGold)} تومان)</li>
+        <li>💱 ارز: ٪۲۰ (${formatCurrency(consCurr)} تومان)</li>
+        <li>📈 سهام: ٪۱۰ (${formatCurrency(consStock)} تومان)</li>
+        <li>💵 نقد/سپرده: ٪۳۰ (${formatCurrency(consCash)} تومان)</li>
+      `;
+
+      const balGold = Math.round(budget * (0.35 - (risk - 50)*0.001));
+      const balStock = Math.round(budget * (0.30 + (risk - 50)*0.002));
+      const balCurr = Math.round(budget * 0.20);
+      const balCash = budget - (balGold + balStock + balCurr);
+
+      document.getElementById('scen-bal-list').innerHTML = `
+        <li>🥇 طلا: ٪۳۵ (${formatCurrency(balGold)} تومان)</li>
+        <li>📈 سهام: ٪۳۰ (${formatCurrency(balStock)} تومان)</li>
+        <li>💱 ارز: ٪۲۰ (${formatCurrency(balCurr)} تومان)</li>
+        <li>💵 نقد/سپرده: ٪۱۵ (${formatCurrency(balCash)} تومان)</li>
+      `;
+
+      const aggStock = Math.round(budget * 0.55);
+      const aggGold = Math.round(budget * 0.25);
+      const aggCurr = Math.round(budget * 0.15);
+      const aggCash = budget - (aggStock + aggGold + aggCurr);
+
+      document.getElementById('scen-agg-list').innerHTML = `
+        <li>📈 سهام: ٪۵۵ (${formatCurrency(aggStock)} تومان)</li>
+        <li>🥇 طلا: ٪۲۵ (${formatCurrency(aggGold)} تومان)</li>
+        <li>💱 ارز: ٪۱۵ (${formatCurrency(aggCurr)} تومان)</li>
+        <li>💵 نقد/سپرده: ٪۵ (${formatCurrency(aggCash)} تومان)</li>
+      `;
+    }
+
+    function renderPortfolioTable() {
+      const tbody = document.getElementById('portfolio-table-body');
+      tbody.innerHTML = '';
+
+      let totalVal = 0;
+
+      appState.portfolio.forEach((item, index) => {
+        const buyTotal = item.qty * item.buyPrice;
+        const currTotal = item.qty * item.currPrice;
+        const diff = currTotal - buyTotal;
+        const diffPct = buyTotal > 0 ? ((diff / buyTotal) * 100).toFixed(1) : 0;
+
+        totalVal += currTotal;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${escapeHTML(item.name)}</strong></td>
+          <td>${getAssetTypeBadge(item.type)}</td>
+          <td>${item.qty}</td>
+          <td>${formatCurrency(item.buyPrice)}</td>
+          <td>${formatCurrency(item.currPrice)}</td>
+          <td>${formatCurrency(currTotal)}</td>
+          <td class="${diff >= 0 ? 'tag-green' : 'tag-red'}">${diff >= 0 ? '▲' : '▼'} ${formatCurrency(diff)} (${diffPct}٪)</td>
+          <td><button class="btn btn-secondary" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="promptDeleteAsset(${index})">حذف</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('dash-portfolio-val').textContent = `${formatCurrency(totalVal)} تومان`;
+      drawDashboardPortfolioDonut();
+    }
+
+    function getAssetTypeBadge(type) {
+      if (type === 'gold') return '🥇 طلا';
+      if (type === 'currency') return '💱 ارز';
+      if (type === 'stock') return '📈 سهام';
+      return '💵 نقد';
+    }
+
+    function openAddAssetModal() {
+      document.getElementById('add-asset-modal').classList.add('open');
+    }
+
+    function closeAddAssetModal() {
+      document.getElementById('add-asset-modal').classList.remove('open');
+    }
+
+    function saveNewAsset() {
+      const name = document.getElementById('asset-name-input').value.trim();
+      const type = document.getElementById('asset-type-input').value;
+      const qty = parseFloat(document.getElementById('asset-qty-input').value) || 0;
+      const buyPrice = parseFloat(document.getElementById('asset-buy-price-input').value) || 0;
+      const currPrice = parseFloat(document.getElementById('asset-curr-price-input').value) || 0;
+
+      if (!name) {
+        showToast('لطفا نام دارایی را وارد کنید', 'warning');
+        return;
+      }
+
+      appState.portfolio.push({
+        id: Date.now(),
+        name,
+        type,
+        qty,
+        buyPrice,
+        currPrice
+      });
+
+      saveState();
+      renderPortfolioTable();
+      closeAddAssetModal();
+      showToast('دارایی جدید با موفقیت اضافه شد', 'success');
+    }
+
+    function promptDeleteAsset(index) {
+      openConfirmModal('حذف دارایی', 'آیا از حذف این دارایی از سبد خود اطمینان دارید؟', () => {
+        appState.portfolio.splice(index, 1);
+        saveState();
+        renderPortfolioTable();
+        showToast('دارایی حذف شد', 'info');
+      });
+    }
+
+    function runSimulation() {
+      let totalCurrent = 0;
+      let totalSimulated = 0;
+
+      const goldChg = (parseFloat(document.getElementById('sim-gold-change').value) || 0) / 100;
+      const currChg = (parseFloat(document.getElementById('sim-curr-change').value) || 0) / 100;
+      const stockChg = (parseFloat(document.getElementById('sim-stock-change').value) || 0) / 100;
+
+      appState.portfolio.forEach(item => {
+        const val = item.qty * item.currPrice;
+        totalCurrent += val;
+
+        let multiplier = 1;
+        if (item.type === 'gold') multiplier += goldChg;
+        if (item.type === 'currency') multiplier += currChg;
+        if (item.type === 'stock') multiplier += stockChg;
+
+        totalSimulated += (val * multiplier);
+      });
+
+      const diff = totalSimulated - totalCurrent;
+      const diffPct = totalCurrent > 0 ? ((diff / totalCurrent) * 100).toFixed(1) : 0;
+
+      document.getElementById('sim-val-before').textContent = `${formatCurrency(Math.round(totalCurrent))} تومان`;
+      document.getElementById('sim-val-after').textContent = `${formatCurrency(Math.round(totalSimulated))} تومان`;
+      
+      const badge = document.getElementById('sim-diff-badge');
+      badge.textContent = `${diff >= 0 ? '+' : ''}${formatCurrency(Math.round(diff))} تومان (${diff >= 0 ? '+' : ''}${diffPct}٪)`;
+      badge.className = diff >= 0 ? 'kpi-sub tag-green' : 'kpi-sub tag-red';
+    }
+
+    function formatCurrency(num) {
+      if (isNaN(num)) return '۰';
+      return Math.round(num).toLocaleString('fa-IR');
+    }
+
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = 'toast-item';
+      let icon = 'ℹ️';
+      if (type === 'success') icon = '✅';
+      if (type === 'warning') icon = '⚠️';
+      if (type === 'error') icon = '❌';
+      
+      toast.innerHTML = `<span>${icon}</span><span>${escapeHTML(msg)}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function openConfirmModal(title, msg, callback) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-msg').textContent = msg;
+      confirmCallback = callback;
+      document.getElementById('confirm-modal').classList.add('open');
+    }
+
+    function closeConfirmModal(confirmed) {
+      document.getElementById('confirm-modal').classList.remove('open');
+      if (confirmed && typeof confirmCallback === 'function') {
+        confirmCallback();
+      }
+      confirmCallback = null;
+    }
+
+    function openOnboarding() {
+      document.getElementById('onboarding-modal').classList.add('open');
+    }
+
+    function finishOnboarding() {
+      const budget = parseFloat(document.getElementById('onboard-budget').value) || 100000000;
+      appState.userBudget = budget;
+      appState.onboarded = true;
+      document.getElementById('scen-budget').value = budget;
+      saveState();
+      document.getElementById('onboarding-modal').classList.remove('open');
+      generateScenarios();
+      showToast('خوش آمدید! تنظیمات اولیه ذخیره شد.', 'success');
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatList = document.getElementById('chat-messages-list');
+
+      // User Message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'chat-msg user';
+      userMsg.textContent = text;
+      chatList.appendChild(userMsg);
+
+      input.value = '';
+      chatList.scrollTop = chatList.scrollHeight;
+
+      // Simulated Gemini response
+      setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-msg bot';
+        
+        let response = 'با توجه به شرایط بازار، پیشنهاد می‌شود همواره تنوع‌بخشی به سبد دارایی و استراتژی مدیریت ریسک را مد نظر داشته باشید.';
+        if (text.includes('طلا') || text.includes('سکه')) {
+          response = 'در بازار طلا، بررسی میزان حباب سکه و کارمزد خرید بسیار حیاتی است. برای سرمایه‌گذاری کوتاه مدت صندوق‌های طلا گزینه مناسب‌تری نسبت به سکه فیزیکی هستند.';
+        } else if (text.includes('ارز') || text.includes('دلار')) {
+          response = 'نرخ دلار تابع تورم انتظاری و تراز ارزی کشور است. نگهداری بیش از حد نقدینگی ریالی توصیه نمی‌شود.';
+        } else if (text.includes('بورس') || text.includes('سهام')) {
+          response = 'در بورس بهتر است روی شرکت‌های بنیادی با نسبت P/E مناسب و سودآوری دلاری تمرکز کنید.';
+        }
+
+        botMsg.textContent = response;
+        chatList.appendChild(botMsg);
+        chatList.scrollTop = chatList.scrollHeight;
+      }, 600);
+    }
+
+    function exportJSONData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "eghtesadyar_backup.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('فایل JSON خروجی گرفته شد', 'success');
+    }
+
+    function exportCSVData() {
+      let csvContent = "data:text/csv;charset=utf-8,ID,Name,Type,Quantity,BuyPrice,CurrentPrice\n";
+      appState.portfolio.forEach(item => {
+        csvContent += `${item.id},"${item.name}",${item.type},${item.qty},${item.buyPrice},${item.currPrice}\n`;
+      });
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "portfolio_eghtesadyar.csv");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      showToast('فایل CSV خروجی گرفته شد', 'success');
+    }
+
+    function promptResetAllData() {
+      openConfirmModal('بازنشانی کامل داده‌ها', 'آیا مطمئن هستید که می‌خواهید تمام داده‌های سبد و تنظیمات پاک شوند؟', () => {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      });
+    }
+
+    function drawDashboardMarketChart() {
+      const canvas = document.getElementById('dashMarketChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const goldPoints = [38, 40, 39, 42, 41, 43, 43.5];
+      const usdPoints = [59, 60, 61, 60.5, 62, 61.8, 62.4];
+
+      drawPolyline(ctx, goldPoints, w, h, '#f59e0b', 'طلا');
+      drawPolyline(ctx, usdPoints, w, h, '#3b82f6', 'دلار');
+    }
+
+    function drawPolyline(ctx, points, width, height, color, label) {
+      const maxVal = Math.max(...points) * 1.1;
+      const minVal = Math.min(...points) * 0.9;
+      const stepX = width / (points.length - 1);
+
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+
+      points.forEach((val, idx) => {
+        const x = idx * stepX;
+        const y = height - ((val - minVal) / (maxVal - minVal)) * (height - 40) - 20;
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      ctx.font = '12px Vazirmatn, sans-serif';
+      ctx.fillText(label, 10, label === 'طلا' ? 20 : 40);
+    }
+
+    function drawDashboardPortfolioDonut() {
+      const canvas = document.getElementById('dashPortfolioDonut');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      let totals = { gold: 0, currency: 0, stock: 0, cash: 0 };
+      let grandTotal = 0;
+
+      appState.portfolio.forEach(item => {
+        const val = item.qty * item.currPrice;
+        totals[item.type] = (totals[item.type] || 0) + val;
+        grandTotal += val;
+      });
+
+      if (grandTotal === 0) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px Vazirmatn, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('سبد دارایی خالی است', w / 2, h / 2);
+        return;
+      }
+
+      const colors = { gold: '#f59e0b', currency: '#3b82f6', stock: '#10b981', cash: '#8b5cf6' };
+      let startAngle = 0;
+      const centerX = w / 2;
+      const centerY = h / 2;
+      const outerRadius = Math.min(w, h) / 2.5;
+      const innerRadius = outerRadius * 0.55;
+
+      Object.keys(totals).forEach(type => {
+        const slice = (totals[type] / grandTotal) * 2 * Math.PI;
+        if (slice > 0) {
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, outerRadius, startAngle, startAngle + slice);
+          ctx.arc(centerX, centerY, innerRadius, startAngle + slice, startAngle, true);
+          ctx.closePath();
+          ctx.fillStyle = colors[type];
+          ctx.fill();
+          startAngle += slice;
+        }
+      });
+    }
+
+    function drawStockChart() {
+      const canvas = document.getElementById('stockTrendChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const price = parseFloat(document.getElementById('stock-price').value) || 5400;
+      const support = parseFloat(document.getElementById('stock-support').value) || 5000;
+      const resistance = parseFloat(document.getElementById('stock-resistance').value) || 5800;
+
+      const mockData = [
+        support * 1.02,
+        support * 1.01,
+        support * 1.04,
+        (support + price) / 2,
+        price * 0.98,
+        price,
+        price * 1.01
+      ];
+
+      drawPolyline(ctx, mockData, w, h, '#10b981', 'روند سهم');
+
+      ctx.strokeStyle = '#ef4444';
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(0, 30);
+      ctx.lineTo(w, 30);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#10b981';
+      ctx.beginPath();
+      ctx.moveTo(0, h - 30);
+      ctx.lineTo(w, h - 30);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  </script>
+  
+ <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.register(
+          "./service-worker.js",
+          {
+            scope: "./"
+          }
+        );
+
+        console.log(
+          "اقتصاد‌یار PWA Service Worker registered:",
+          registration.scope
+        );
+
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+
+          if (!newWorker) return;
+
+          newWorker.addEventListener("statechange", () => {
+            if (
+              newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
+              console.log("نسخه جدید PWA آماده است.");
+            }
+          });
+        });
+
+      } catch (error) {
+        console.error(
+          "ثبت Service Worker ناموفق بود:",
+          error
+        );
+      }
+    });
+  }
+</script> 
+  
+  
+  
+</body>
+</html>
