@@ -1,5 +1,4 @@
 {
-  {
   "name": "اقتصاد‌یار | EghtesadYar - داشبورد و ماشین حساب اقتصادی هوشمند",
   "short_name": "اقتصاد‌یار",
   "id": "./eghtesadyar",
@@ -9,9 +8,9 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#090d16",
-  "theme_color": "#f59e0b"
-}
+  "theme_color": "#f59e0b",
   "icons": [
     {
       "src": "./icon-192.png",
