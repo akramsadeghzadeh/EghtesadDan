@@ -1,7 +1,7 @@
 {
-  "name": "اقتصاد‌یار | EghtesadYar - داشبورد و ماشین حساب اقتصادی هوشمند",
-  "short_name": "اقتصاد‌یار",
-  "id": "./eghtesadyar",
+  "name": "اقتصادبار - داشبورد و ماشین حساب اقتصادی هوشمند | EghtesadYar",
+  "short_name": "اقتصادیار",
+  "id": "/",
   "description": "ماشین حساب و دستیار هوشمند سرمایه‌گذاری",
   "lang": "fa",
   "dir": "rtl",
@@ -11,18 +11,41 @@
   "orientation": "portrait",
   "background_color": "#090d16",
   "theme_color": "#f59e0b",
+  "categories": ["finance", "utilities"],
   "icons": [
     {
       "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "صفحه اصلی اقتصادیار"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "نمای موبایل اقتصادیار"
     }
   ]
 }
